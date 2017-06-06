@@ -1,0 +1,120 @@
+//--- Putty
+	user: sshd
+	pass: ADmycloud15
+
+//--- MyController
+	user: admin
+	pass: ADmycontroller16
+	path: cd /mnt/HD/HD_a2/Public/mycontroller/bin
+	run: ./start.sh
+	startup: /mnt/HD/HD_a2/Nas_Prog/Transmission/start.sh
+	login: https://10.0.0.32:8443/#/login
+
+//--- MyController brand new setup (no db)
+	Settings
+		backup - every 7 days
+		users - AD
+		metrics - last day
+		MQTT broker - allow anonymous
+		System - 18.509506,-69.950604
+	Resources
+		Gateways - add gateway
+		Rooms - Ground floor, 1st floor, Outside
+		Timers - Sunrise, Sunset
+		Operations - ON/OFF
+	Dashboards
+		Default, Security, Lights & Power
+
+//--- set java environment
+	export JAVA_HOME="/mnt/HD/HD_a2/Public/opt/ejdk1.8.0_111/linux_arm_sflt/jre/"
+	export PATH=$JAVA_HOME/bin:$PATH
+	java -version
+
+//--- stop the server
+	ps -A
+	kill -9 [processID]
+
+//--- MQTT broker (or use m13.cloudmqtt.com)
+	Status: Enabled
+	Allow anonymous
+	Bind: 0.0.0.0
+	port: 1883
+	websocket: 7080
+
+//--- Gateway (node 0)
+	name: AD_gateway
+	type: MySensors
+	type: MQTT
+	QoS: 0
+	broker host: tcp://localhost:1883
+	Client ID: AD_gateway
+	Topic publish: AD_gw_in
+	Topic subscribe: AD_gw_out
+
+//--- phpMyAdmin
+	user: admin
+	pass: admin
+	user: mycontroller
+	pass: mycontroller
+	database mc17
+	mcc.db.url=jdbc:mysql://localhost:3306/mycontroller
+
+
+===============================================================
+
+//--- find usb port
+cd /dev
+lsusb -v [-k]
+dmesg [| grep tty]
+
+//--- WD MyCloud
+
+uname -r
+	displays version = 3.2.40
+
+cat /etc/version
+	2.11.153
+	"WDMyCloudEX2" Firmware Version: 2.11.153.0906.2016
+	Timestamp: Tue Oct 25 20:26:47 2016
+	Time Seconds: 1477441607
+	modelNumber="KC2A"
+
+lsmod
+	lists modules
+
+cat /proc/bus/usb/devices
+cat /var/log/mycloud.log
+
+no modprobe, use insmod instead
+
+no cdc-acm driver
+
+
+//--- Arduino Nano 
+VID:1a86 PID:7523, ch341g FTDI chip
+CH341SER_LINUX.zip
+http://www.homautomation.org/2015/02/05/how-to-use-arduinos-with-ch340g-ch341g-serialusb-ftdi-chip/
+
+===============================================================
+
+/dev/ttyACM0 -> /dev/3-2 // symlink
+
+mknod /dev/ttyACM0 c 166 0
+ln -s /dev/ttyACM0 /dev/3-2
+
+echo "0x1b4f 0x9204" > /sys/bus/usb/drivers/cdc_acm/new_id
+
+current driver is 
+../../../../../bus/usb/drivers/usb
+
+echo "0x1a86 0x7523" > /sys/bus/usb/drivers/usbfs/new_id
+
+try serial with jSerialComm 
+
+* tried //#define MY_CONTROLLER_IP_ADDRESS 		-> gateway loops
+* tried #define MY_REGISTRATION_CONTROLLER 		-> no change
+* tried //#define MY_CORE_COMPATIBILITY_CHECK		-> no change
+
+
+
+

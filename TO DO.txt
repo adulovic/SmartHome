@@ -1,0 +1,11 @@
+=== IDEJE ===
+
+--- arduino ---
+probaj ultrasonic sensor
+probaj laser
+kill-a-watt na arduino ?
+
+--- mycontroller ---
+percentage slider
+rbg picker
+css / html mods
