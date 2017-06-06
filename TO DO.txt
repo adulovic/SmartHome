@@ -4,6 +4,9 @@
 probaj ultrasonic sensor
 probaj laser
 kill-a-watt na arduino ?
+radio signal measure
+voltage measure
+
 
 --- mycontroller ---
 percentage slider
