@@ -26,9 +26,9 @@ void loopS6(){
 	float Watts = 1 * Amps * 117.0;								// W = PF × A × V
 
 	// printout
-	Serial.print("   V:"); Serial.print(Voltage);
-	Serial.print("  A:"); if(Amps>=0){Serial.print(" ");} Serial.print(Amps);
-	Serial.print("  W:"); if(Watts>=0){Serial.print(" ");} Serial.println(Watts);
+	//Serial.print("   V:"); Serial.print(Voltage);
+	//Serial.print("  A:"); if(Amps>=0){Serial.print(" ");} Serial.print(Amps);
+	//Serial.print("  W:"); if(Watts>=0){Serial.print(" ");} Serial.println(Watts);
 	
 	// send to mycontroller (only if changed significantly ?? )
 	if ( Watts<40 ) {

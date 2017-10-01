@@ -1,25 +1,28 @@
 
 /*  SENSORS
 =========1=========2=========3=========4=========5=========6=========7========*/
-#define S1              1               // Voltage
+#define S6              1               // VAC sensor
+#define S12             2               // VDC sensor
 
 
-/*  PINS & VARIABLES
+/*  PINS & VARIABLES - S6 - AC Voltage sensor
 =========1=========2=========3=========4=========5=========6=========7========*/
-const int pinS1 =       A4;             // Digital pin number for the relay
-MyMessage msgS1(S1, V_VOLTAGE);         // type of message sent to MySensors
-float ADCVal;
-float pinVoltage;
-float batteryVoltage;
-int ratio =             4;
+const int pinS6 =        A0;            // 
+
+int valueS6 = 0;                        // reading the sensor status
+int stateS6 = 0;                        // storing the last state
+int mVperAmp = 185;                     // use 185 for 5A, 
+                                        // 100 for 20A Module and 
+                                        // 66 for 30A Module
+
+/*  PINS & VARIABLES - S12 - DC Voltage sensor
+=========1=========2=========3=========4=========5=========6=========7========*/
+const int pinS12 =      A1;             // analog pin
+const int R1 =          10000;          // resistor 10k
+const int R2 =          2000;           // resistor 2k
+const float dividerS12 = (float)R2/(R2+R1);
+
+float voltageS12 =      0;              // storing the voltage
 
 
-/*
-    20v as the input, 5v as the output, 3k for R1 and 1k for R2
-    Vout = (R2 / (R1 + R2)) * Vin
-    Vout = (1000 / (3000 + 1000)) * 20
-    Vout = (1000 / 4000) * 20 = 0.25 * 20 = 5 
-    Ratio = 20v / 5v = 4
 
-    Because the Arduino has a 10-bit ADC, it outputs 0-1023 (1024 steps) for a 0-5v input. That's 0.00488v / step
-*/

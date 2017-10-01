@@ -22,7 +22,7 @@
      */
     #define A1              1               // Sensor number
     const int pinA1 =       2;              // Data pin
-    #include "A01_relayInverted.h"          // Relay - for Projector Power
+    #include "A01_RelayInverted.h"          // Relay - for Projector Power
 
     /**
      * S1 - Reed switch - office door
@@ -44,8 +44,8 @@
     float stateS2T;                         // last saved temperature value
     unsigned long tS2 = 0;                  // last saved time the loop fired
     unsigned long iS2 = 5;                  // interval at which to fire loop (in minutes)
-    #include <DHT.h>                        // include the DHT 11 library
-    #include "S02_DHT11"                    // DHT 11 for Humidity and Temperature
+    #include <DHT.h>                        // DHT11 library
+    #include "S02_DHT11.h"                  // DHT 11 for Humidity and Temperature
 
 /**
  * Presentation
@@ -86,6 +86,5 @@ void loop(){
  * Receive ... messages to the actuator(s)
 =========1=========2=========3=========4=========5=========6=========7========*/
 void receive(const MyMessage &message) {
-
     receiveA1(message);
 }
