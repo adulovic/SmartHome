@@ -11,7 +11,7 @@ MyMessage msgS13(S13, V_DISTANCE);
 /* Setup
 =========1=========2=========3=========4=========5=========6=========7========*/
 void setupS13(){
-      //Define inputs and outputs
+      // initialize inputs and outputs
       pinMode(pinS13T, OUTPUT);
       pinMode(pinS13E, INPUT);
 }

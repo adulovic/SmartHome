@@ -7,10 +7,12 @@
 #include "R.h"                          // NRF24L01 definitions
 #include <MySensors.h>                  // MySensors library
 #include "def.h"                        // Explanation and inital variables
-  #include "A1.h"                       // Relay for lights
-  #include "A2.h"                       // Front Door Electronic Lock
-  #include "S1.h"                       // Reed switch
-  #include "S4.h"                       // PIR switch
+
+#include "A1.h"                       // Relay for lights
+#include "A2.h"                       // Front Door Electronic Lock
+#include "S1.h"                       // Reed switch
+#include "S4.h"                       // PIR switch
+
 /*
     Presentation
 =========1=========2=========3=========4=========5=========6=========7========*/
@@ -22,6 +24,7 @@ void presentation(){
     present(S4, S_MOTION, "Entryway PIR");
   Serial.println((String)" === Node "+MY_NODE_ID+" presented ("+SN+")");
 }
+
 /*
     Setup
 =========1=========2=========3=========4=========5=========6=========7========*/
@@ -32,6 +35,7 @@ void setup() {
     setupS4();
   Serial.println((String)" === Node "+MY_NODE_ID+" setup ("+SN+")");
 }
+
 /*
     Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
@@ -40,6 +44,7 @@ void loop() {
     loopS4();
   wait(1000);
 }
+
 /*
     Receive
 =========1=========2=========3=========4=========5=========6=========7========*/

@@ -10,25 +10,37 @@ MyMessage msgS4(S4, V_TRIPPED);        // type of message sent to MySensors
 /* Setup
 =========1=========2=========3=========4=========5=========6=========7========*/
 void setupS4(){
-    pinMode(pinS4, INPUT);             // initialize sensor as an input
-	stateS4 = request(S4, V_TRIPPED);  // get status from controller
-    digitalWrite(pinS4, stateS4);      // turn on/off based on controller state
-
+    // initialize sensor as an input
+    pinMode(pinS4, INPUT);
+    // get status from controller
+    stateS4 = request(S4, V_TRIPPED);
+    // set status based on controller state
+    digitalWrite(pinS4, stateS4);
 }
 
 /* Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
 void loopS4(){
-	valueS4 = digitalRead(pinS4);       // Read the state of the switch
-	if (valueS4 != stateS4) {           // If different from last state
-        if (valueS4 == 0){              // Pin reads low
-			Serial.println((String)"- Standing down after "+ ((millis()-tS4)/1000) + " seconds");
-        } else if (valueS4 == 1){
-			tS4 = millis();				// time when loop fired (for calibrating the timer)
-			Serial.println("--- Motion detected! --- ");
+    // Read the state of the switch
+    valueS04 = digitalRead(pinS04);
+    // If different from last state
+    if (valueS04 != stateS04) {
+        // Pin reads low
+        if (valueS04 == 0){
+            // Debug Printout
+            Serial.println((String)"- Standing down after "+ ((millis()-tS04)/1000) + " seconds");
+        } else 
+        if (valueS04 == 1){
+            // time when loop fired (for calibrating the timer)
+            tS04 = millis();
+            // Debug Printout
+            Serial.println("--- Motion detected! --- ");
         }
-        send(msgS4.set(valueS4));       // send to controller
-        stateS4 = valueS4;              // update state
-		wait(2000);						// wait 2 seconds so it doesnt bounce
+        // send to controller
+        send(msgS4.set(valueS4));
+        // update state
+        stateS4 = valueS4;
+        // wait 2 seconds so it doesn't bounce
+        wait(2000);
     }
 }
