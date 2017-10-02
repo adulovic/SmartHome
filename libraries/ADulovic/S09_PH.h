@@ -4,17 +4,17 @@
 
 /* Initialize
 =========1=========2=========3=========4=========5=========6=========7========*/
-MyMessage msgS1(S1, V_PH);
+MyMessage msgS09(S09, V_PH);
 
 /* Setup
 =========1=========2=========3=========4=========5=========6=========7========*/
-void setupS1(){
+void setupS09(){
       //Setup your PH sensor here (I2C,Serial,Phidget...)
 }
 
 /* Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
-void loopS1(){
+void loopS09(){
     float valuePH = analogRead(pinS1);
     if (statePH != valuePH) {
         send(msgS1.set(valuePH, 1));       // Send in the new PH value
