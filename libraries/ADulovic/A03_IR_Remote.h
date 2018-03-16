@@ -1,32 +1,39 @@
-/*
-    InfraRed Receiver
-
-    minus to gnd
-    S to pin (the data pin must be PWM)
+/**
+    InfraRed Remote
 */
 
-/* Initialize
+
+/**
+	Initialize
 =========1=========2=========3=========4=========5=========6=========7========*/
-MyMessage msgA3(A3, V_IR_SEND);
+MyMessage msgA03(A03, V_IR_SEND);
+
 #include <IRremote.h>                   // the IR library
 IRsend irsend;
 
-/* Setup
+
+/**
+	Setup
 =========1=========2=========3=========4=========5=========6=========7========*/
-void setupA3(){
-    pinMode(pinA3, OUTPUT);
+void setupA03(){
+    pinMode(pinA03, OUTPUT);
+	if (Printout==true) {Serial.println(F("     A03 --- IR emitter setup. "));}
 }
 
-/* Loop
+
+/**
+	Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
-void loopA3(){}
-/*
-    Receive
+void loopA03(){}
+
+
+/**
+	Receive
 =========1=========2=========3=========4=========5=========6=========7========*/
-void receiveA3(const MyMessage &message){
+void receiveA03(const MyMessage &message){
 	unsigned long sendCode = 0;
     if (message.type==V_IR_SEND) {
-        Serial.print("Instruction Received: "); Serial.println( message.getString() );
+		if (Printout==true) { Serial.print(F("Instruction Received: ")); Serial.println( message.getString() );}
 
 		if ( strcmp(message.getString(), "brighter") == 0 ) 		{ sendCode = 0xFF3AC5; }
 		else if ( strcmp(message.getString(), "darker") == 0 ) 		{ sendCode = 0xFFBA45; }
@@ -85,7 +92,7 @@ void receiveA3(const MyMessage &message){
 		else if ( strcmp(message.getString(), "fade3") == 0 ) 		{ sendCode = 0xFF609F; }
 		else if ( strcmp(message.getString(), "fade7") == 0 ) 		{ sendCode = 0xFFE01F; }
 
-        Serial.print("Sending code: "); Serial.println( sendCode );
+        if (Printout==true) {Serial.print(millis()/1000); Serial.print(F(" sec, Sending code: ")); Serial.println( sendCode );}
 		irsend.sendNEC(sendCode,32);	// 32kHz carrier frequency for NEC
     }
 }
