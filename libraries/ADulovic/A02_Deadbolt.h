@@ -1,4 +1,4 @@
-/*
+/**
     Electronic Deadbolt control
 	
 	- setting A low and B high will operate the lock's motor in one direction
@@ -11,34 +11,47 @@
 	- will 5V be enough to operate ?
 */
 
-/* Initialize
-=========1=========2=========3=========4=========5=========6=========7========*/
-MyMessage msgA2(A2, V_LOCK_STATUS);			// type of message sent to MySensors
 
-/* Setup
+/**
+	Initialize
 =========1=========2=========3=========4=========5=========6=========7========*/
-void setupA2(){
-	pinMode(pinA2L, OUTPUT);							// set pin to output mode
-	pinMode(pinA2U, OUTPUT);		 					// set pin to output mode
+MyMessage msgA02(A02, V_LOCK_STATUS);			// type of message sent to MySensors
+
+
+/**
+	Setup
+=========1=========2=========3=========4=========5=========6=========7========*/
+void setupA02(){
+	pinMode(pinA02L, OUTPUT);							// set pin to output mode
+	pinMode(pinA02U, OUTPUT);		 					// set pin to output mode
 }
 
-/* Receive
+
+/**
+	Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
-void receiveA2(const MyMessage &message){
+void loopA02(){
+	// nothing to loop
+}
+
+/**
+	Receive
+=========1=========2=========3=========4=========5=========6=========7========*/
+void receiveA02(const MyMessage &message){
 	if (message.type==V_LOCK_STATUS) {
-        //Serial.print("Received message: "); Serial.println(message.getInt());
+        if (Printout==true) {Serial.print("Received message: "); Serial.println(message.getInt());}
 		if (message.getInt() == 1){
-            Serial.println("Lock Requested");
-            digitalWrite(pinA2L, HIGH);
-            digitalWrite(pinA2U, LOW);
+            if (Printout==true) {Serial.println("Lock Requested");}
+            digitalWrite(pinA02L, HIGH);
+            digitalWrite(pinA02U, LOW);
             delay(1000);
-            digitalWrite(pinA2L, LOW);
+            digitalWrite(pinA02L, LOW);
 		} else if (message.getInt() == 0){
-            Serial.println("Unlock Requested");
-            digitalWrite(pinA2U, HIGH);
-            digitalWrite(pinA2L, LOW);
+            if (Printout==true) {Serial.println("Unlock Requested");}
+            digitalWrite(pinA02U, HIGH);
+            digitalWrite(pinA02L, LOW);
             delay(1000);
-            digitalWrite(pinA2U, LOW);
+            digitalWrite(pinA02U, LOW);
         }
     }
 }

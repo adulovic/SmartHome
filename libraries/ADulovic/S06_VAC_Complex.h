@@ -7,15 +7,15 @@
 
 /* Initialize    
 =========1=========2=========3=========4=========5=========6=========7========*/
-//MyMessage msgS6V(S6, V_VOLTAGE);
-//MyMessage msgS6C(S6, V_CURRENT);
-MyMessage msgS6W(S6, V_WATT);
+///MyMessage msgS06v(S06, V_VOLTAGE);
+///MyMessage msgS06c(S06, V_CURRENT);
+///MyMessage msgS06w(S06, V_WATT);
 
 
 /* Setup
 =========1=========2=========3=========4=========5=========6=========7========*/
-void setupS6(){
-    pinMode(pinS6, INPUT);
+void setupS06(){
+    pinMode(pinS06, INPUT);
 	// header row printout
 	Serial.print(" max |");Serial.print(" min |");Serial.print(" dif |");Serial.print(" avg |");
 	Serial.print("   V  |");Serial.print("   A  |");Serial.print("   W  |");Serial.print(" rmsV |");Serial.print(" rmsA |");
@@ -24,19 +24,19 @@ void setupS6(){
 
 /* Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
-void loopS6(){
+void loopS06(){
 	int maxValue = 0;          			// store max value here
 	int minValue = 1024;          		// store min value here
- 
-	uint32_t start_time = millis();
+ 	uint32_t start_time = millis();
+	
 	while((millis()-start_time) < 1000) {	//sample for 1 Sec
-	   int readValue = analogRead(pinS6);
-	   if (readValue > maxValue){maxValue = readValue;}		// record the maximum sensor value
+	   int readValue = analogRead(pinS06);
+	   if (readValue > maxValue) {maxValue = readValue;}	// record the maximum sensor value
 	   if (readValue < minValue) {minValue = readValue;}	// record the minimum sensor value
 	}
 
 	int diff = maxValue - minValue;
-	int avg = minValue + (diff/2);		// the average reading
+	int avg = minValue + (diff/2);			// the average reading between min/max values
 	float Voltage = (avg * 5.0 / 1024.0);	// 5 volts, 1024 values, should give 2.5v at no current
 
 	if (diff>50){
@@ -62,8 +62,8 @@ void loopS6(){
 	
 	// send to mycontroller
 	// (only if changed significantly)
-	//send(msgS6V.set(Voltage,2));
-	//send(msgS6C.set(Amps,2));
-	send(msgS6W.set(Watts,2));
+	///send(msgS06v.set(Voltage,2));
+	///send(msgS06c.set(Amps,2));
+	///send(msgS06w.set(Watts,2));
 }
  

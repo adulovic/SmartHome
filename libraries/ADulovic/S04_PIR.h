@@ -1,46 +1,54 @@
-/* 
-    Passive InfraRed Switch
+/**
+ *   Passive InfraRed Switch	
+ */
+
+
+/**
+	Initialize
+=========1=========2=========3=========4=========5=========6=========7========*/
+MyMessage msgS04(S04,V_TRIPPED);      	// type of message sent to MySensors
+
+
+/**
+	Setup
+=========1=========2=========3=========4=========5=========6=========7========*/
+void setupS04(){
 	
-*/
+    pinMode(pinS04,INPUT);						// initialize sensor as an input
+    bool trippedS04 = request(S04,V_TRIPPED);	// get tripped state from controller
+	bool armedS04 = request(S04, V_ARMED);		// get armed state from controller
 
-/* Initialize
-=========1=========2=========3=========4=========5=========6=========7========*/
-MyMessage msgS4(S4, V_TRIPPED);        // type of message sent to MySensors
-
-/* Setup
-=========1=========2=========3=========4=========5=========6=========7========*/
-void setupS4(){
-    // initialize sensor as an input
-    pinMode(pinS4, INPUT);
-    // get status from controller
-    stateS4 = request(S4, V_TRIPPED);
-    // set status based on controller state
-    digitalWrite(pinS4, stateS4);
+	if (Printout==true) { Serial.print(F("     S04 --- PIR setup... Armed:")); Serial.print(armedS04); Serial.print(F(" Tripped:")); Serial.println(trippedS04);}
 }
 
-/* Loop
+
+/**
+	Loop
 =========1=========2=========3=========4=========5=========6=========7========*/
-void loopS4(){
-    // Read the state of the switch
-    valueS04 = digitalRead(pinS04);
-    // If different from last state
-    if (valueS04 != stateS04) {
-        // Pin reads low
-        if (valueS04 == 0){
-            // Debug Printout
-            Serial.println((String)"- Standing down after "+ ((millis()-tS04)/1000) + " seconds");
-        } else 
-        if (valueS04 == 1){
-            // time when loop fired (for calibrating the timer)
-            tS04 = millis();
-            // Debug Printout
-            Serial.println("--- Motion detected! --- ");
-        }
-        // send to controller
-        send(msgS4.set(valueS4));
-        // update state
-        stateS4 = valueS4;
-        // wait 2 seconds so it doesn't bounce
-        wait(2000);
-    }
+void loopS04(uint16_t frequency){
+
+	if ( !request(S04, V_ARMED) ) { return; }					// do not loop unless the sensor is armed
+		
+	if ( millis()/1000 >= (frequency + tS04) ) {
+		tS04 = millis()/1000;									// set timer to now
+		
+		bool trippedS04 = digitalRead(pinS04);					// Read the PIR switch - returns 0 | 1
+
+		if (trippedS04 != request(S04,V_TRIPPED)) {				// if different from controller state
+			send(msgS04.set(trippedS04),true);					// send current state to controller
+		}
+		
+		if (Printout==true) { Serial.print(millis()/1000); Serial.println(F("sec, S04 tripped state is: ")); Serial.println(trippedS04);}
+	}
+}
+
+
+/**
+    Receive
+=========1=========2=========3=========4=========5=========6=========7========*/
+void receiveS04(const MyMessage &message){
+	
+    if ( message.type == V_ARMED ) {
+		if (Printout==true) {Serial.print(millis()/1000); Serial.print(F(" sec, S04 armed state is: "));Serial.println(message.getBool());}
+	} 
 }
